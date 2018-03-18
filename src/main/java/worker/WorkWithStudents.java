@@ -8,8 +8,10 @@ import dao.StudentsDao;
 public class WorkWithStudents {
 	@Autowired
 	private StudentsDao studentsDao;
-	
 
+    public Student getStudentFromDbById(int id){
+    	return studentsDao.getStudentById(id);
+	}
 	public void saveStudentToDb(Student student){
 	if ((student!=null)&&(student.getPib()!=null)&&(!"".equals(student.getPib()))&&(student.getCourse()>0)){
 	studentsDao.addStudent(student);

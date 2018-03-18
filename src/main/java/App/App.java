@@ -15,10 +15,15 @@ public static void main( String[] args ){
 	WorkWithStudents worker = 
 	(WorkWithStudents) context.getBean("worker");
 	//new WorkWithStudents();
-	Student testStudent = new Student("Asddas",3);
-	worker.saveStudentToDb(testStudent);
-	
-	WorkWithTeacher workWithTeacher = 
+	//Student testStudent = new Student("Asddas",3);
+	//worker.saveStudentToDb(testStudent);
+
+	Student student = worker.getStudentFromDbById(1);
+	System.out.println(student);
+	student = worker.getStudentFromDbById(1);
+	System.out.println(student);
+
+	/*WorkWithTeacher workWithTeacher =
 			(WorkWithTeacher) context.getBean("teachersWorker");
 			Teacher teacher = new Teacher();
 			teacher.setFirstname("Andrii");
@@ -27,6 +32,7 @@ public static void main( String[] args ){
 			teacher = workWithTeacher.addTeacher(teacher);
 			teacher.setBirthDate(new Date());
 			workWithTeacher.saveTacher(teacher);
-
+*/
 	}
+
 }
