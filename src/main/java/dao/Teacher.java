@@ -1,10 +1,21 @@
 package dao;
 
+import org.hibernate.annotations.Entity;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
-import javax.persistence.*;
+
 @Entity
-@Table(name="TEACHERS")
+@NamedQueries({
+		@NamedQuery(name = "findPhones", query="SELECT DISTINCT t.cell_phone FROM Teacher t")
+})
+@Table(name="teachers")
 public class Teacher {
 	@Id
 	@GeneratedValue

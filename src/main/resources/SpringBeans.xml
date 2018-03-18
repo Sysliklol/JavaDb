@@ -8,8 +8,6 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
        http://www.springframework.org/schema/context
@@ -31,18 +29,20 @@ base-package="impl"/>
         <property name="configLocation" value="classpath:Ehcache.xml"/>
     </bean>
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-    <property name="url" value="jdbc:mysql://localhost:3306/testJDBC" />
-    <property name="username" value="root" />
-    <property name="password" value="" />
-    <property name="initialSize" value="5" />
-    <property name="maxTotal" value="10" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/testJDBC"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+        <property name="initialSize" value="5"/>
+        <property name="maxTotal" value="10"/>
     </bean>
+
     <context:component-scan base-package="worker"/>
     <context:component-scan base-package="App"/>
     <context:component-scan base-package="dao"/>
     <context:component-scan base-package="impl"/>
     <bean id="worker" class="worker.WorkWithStudents"/>
+
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
     <property name="dataSource" ref="dataSource" />
     <property name="packagesToScan" value="dao" />
@@ -60,11 +60,29 @@ base-package="impl"/>
     <ref bean="sessionFactory"/>
     </property>
     </bean>
-
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceXmlLocation" value="persistence.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+            </props>
+        </property>
+    </bean>
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
     <tx:annotation-driven/>
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
     <constructor-arg ref="dataSource"/>
     </bean>
     <bean id="teachersWorker" class="worker.WorkWithTeacher"/>
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="MYSQL"/>
+        <property name="showSql" value="true"/>
+        <property name="generateDdl" value="false"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+
+    </bean>
 
 </beans>

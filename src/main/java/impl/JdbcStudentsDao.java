@@ -15,11 +15,11 @@ import dao.StudentsDao;
 
 @Repository
 public class JdbcStudentsDao implements StudentsDao{
-private static final String SQL_SELECT_STUDENT_BY_ID = "select id, pib, course from students where id = ?";
-private static final String SQL_INSERT_STUDENT = "insert into students (pib,course) values (?,?)";
+	private static final String SQL_SELECT_STUDENT_BY_ID = "select `id`, `pib`, `course` from `students` where `id` = ?";
+	private static final String SQL_INSERT_STUDENT = "insert into students (pib,course) values (?,?)";
 
-@Autowired
-private SimpleJdbcTemplate jdbcTemplate;
+	@Autowired
+	private SimpleJdbcTemplate jdbcTemplate;
 
 
 	@Cacheable(cacheName = "studentsCache")
@@ -38,10 +38,10 @@ private SimpleJdbcTemplate jdbcTemplate;
 
 
 
-public void addStudent(Student student) {
-	jdbcTemplate.update(SQL_INSERT_STUDENT, 
-			student.getPib(),
-			student.getCourse());
-	
-}
+	public void addStudent(Student student) {
+		jdbcTemplate.update(SQL_INSERT_STUDENT,
+				student.getPib(),
+				student.getCourse());
+
+	}
 }
